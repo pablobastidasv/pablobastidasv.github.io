@@ -1,12 +1,16 @@
 ---
-title: Description of a Pot Still
+title: Como modelar una entidad
 categories:
-- General
+- Clean Architecture
+- Arquitecture
+- Java
+- Diseño
 excerpt: |
-  A pot still is a type of still used in distilling spirits such as whisky or brandy. Heat is applied directly to the pot containing the wash (for whisky) or wine (for brandy).
+  A pot still is a type of still used in distilling spirits such as whisky or brandy. Heat is applied directly to the 
+  pot containing the wash (for whisky) or wine (for brandy).
 feature_text: |
-  ## The Pot Still
-  The modern pot still is a descendant of the alembic, an earlier distillation device
+  ## Entidades del sistema
+  Desarrolladores tienden a pensar que una entidad representa una tabla en la base de datos, es esto asi?
 feature_image: "https://picsum.photos/2560/600?image=733"
 image: "https://picsum.photos/2560/600?image=733"
 ---
