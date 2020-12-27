@@ -2,15 +2,13 @@
 title: Como modelar una entidad
 categories:
 - Clean Architecture
-- Arquitecture
-- Java
-- Diseño
+- thought
 excerpt: |
-  A pot still is a type of still used in distilling spirits such as whisky or brandy. Heat is applied directly to the 
-  pot containing the wash (for whisky) or wine (for brandy).
+  En Clean Architecture se habla de las entidades, pensando en ellas se me ocurre una forma de escribirlas.
 feature_text: |
-  ## Entidades del sistema
-  Desarrolladores tienden a pensar que una entidad representa una tabla en la base de datos, es esto asi?
+  ## Entidades de una applicacion
+  Las entidades representan un "objeto de negocio", una entidad debe tener el comportamiento y el estado que el 
+  "objeto de negocio" que esta modela tiene en la vida real.
 feature_image: "https://picsum.photos/2560/600?image=733"
 image: "https://picsum.photos/2560/600?image=733"
 ---
