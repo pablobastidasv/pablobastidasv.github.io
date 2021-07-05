@@ -27,6 +27,12 @@
 
 **Alembic is a starting point for [Jekyll](https://jekyllrb.com/) projects. Rather than starting from scratch, this boilerplate theme is designed to get rolling immediately. Install it, configure it, tweak it, push it.**
 
+## Running it locally with docker
+
+```
+docker run --rm -ti -p 4000:4000 -v $(pwd):/site bretfisher/jekyll-serve
+```
+
 ## Features
 
 - Available as a **theme gem** and **GitHub Pages** theme
