@@ -12,59 +12,78 @@ Here the k8s yaml file with the service, config map and deployment that allows m
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: my-app-rdbms
+  name: kopenhagen-rdbms
   labels:
-    app: my-app
+    app: kopenhagen
     component: database
 data:
   MARIADB_RANDOM_ROOT_PASSWORD: "yes"
-  MARIADB_DATABASE: my-app
-  MARIADB_USER: my-app
+  MARIADB_DATABASE: kopenhagen
+  MARIADB_USER: kopenhagen
   MARIADB_PASSWORD: admin123
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kopenhagen-rdbms-config
+data:
+  my.cnf: |
+    [mariadb]
+    lower_case_table_names=1
 
 ---
 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app-rdbms
+  name: kopenhagen-rdbms
   labels:
-    app: my-app
+    app: kopenhagen
     component: database
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: my-app
+      app: kopenhagen
       component: database
   template:
     metadata:
       labels:
-        app: my-app
+        app: kopenhagen
         component: database
     spec:
       containers:
-        - name: my-app-rdbms
+        - name: kopenhagen-rdbms
           image: mariadb:10.6
+          volumeMounts:
+            - mountPath: /etc/mysql/conf.d/
+              name: config
+              readOnly: true
           ports:
             - containerPort: 3306
           envFrom:
             - configMapRef:
-                name: my-app-rdbms
+                name: kopenhagen-rdbms
+      volumes:
+        - name: config
+          configMap:
+            name: kopenhagen-rdbms-config
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-app-rdbms
+  name: kopenhagen-rdbms
   labels:
-    app: my-app
+    app: kopenhagen
     component: database
 spec:
   ports:
     - port: 3306
   selector:
-    app: my-app
+    app: kopenhagen
     component: database
 
 ```
