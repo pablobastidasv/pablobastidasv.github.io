@@ -6,20 +6,20 @@ excerpt: |
   In some cases I want to deploy a MariaDB server inside k8s but not a real server, with many instances, volumes, high performance configuration, on other words, a non prod MariaDB for local tests/dev. Here is the solution that I found for this.
 ---
 
-Here the k8s yaml file with the service, config map and deployment that allows me to run a MariaDB server in my `docker-desktop` k8s.
+Here the k8s yaml file with the service (_rdbms.yaml_), config map and deployment that allows me to run a MariaDB server in my `docker-desktop` k8s.
 
 ```
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kopenhagen-rdbms
+  name: my-app-rdbms
   labels:
-    app: kopenhagen
+    app: my-app
     component: database
 data:
   MARIADB_RANDOM_ROOT_PASSWORD: "yes"
-  MARIADB_DATABASE: kopenhagen
-  MARIADB_USER: kopenhagen
+  MARIADB_DATABASE: my-app
+  MARIADB_USER: my-app
   MARIADB_PASSWORD: admin123
 
 ---
@@ -27,7 +27,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: kopenhagen-rdbms-config
+  name: my-app-rdbms-config
 data:
   my.cnf: |
     [mariadb]
@@ -38,24 +38,24 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kopenhagen-rdbms
+  name: my-app-rdbms
   labels:
-    app: kopenhagen
+    app: my-app
     component: database
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: kopenhagen
+      app: my-app
       component: database
   template:
     metadata:
       labels:
-        app: kopenhagen
+        app: my-app
         component: database
     spec:
       containers:
-        - name: kopenhagen-rdbms
+        - name: my-app-rdbms
           image: mariadb:10.6
           volumeMounts:
             - mountPath: /etc/mysql/conf.d/
@@ -65,25 +65,25 @@ spec:
             - containerPort: 3306
           envFrom:
             - configMapRef:
-                name: kopenhagen-rdbms
+                name: my-app-rdbms
       volumes:
         - name: config
           configMap:
-            name: kopenhagen-rdbms-config
+            name: my-app-rdbms-config
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: kopenhagen-rdbms
+  name: my-app-rdbms
   labels:
-    app: kopenhagen
+    app: my-app
     component: database
 spec:
   ports:
     - port: 3306
   selector:
-    app: kopenhagen
+    app: my-app
     component: database
 
 ```
